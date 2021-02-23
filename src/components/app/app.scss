@@ -1,0 +1,52 @@
+@import "~reset-css";
+
+/*
+    general style
+ */
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 13px !important;
+  font-weight: 400;
+  font-family: Poppins, Helvetica, "sans-serif";
+  -ms-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  color: #464E5F;
+}
+
+#root {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  color: #464E5F;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex: 1 0 auto;
+}

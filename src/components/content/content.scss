@@ -1,0 +1,18 @@
+.content {
+  padding: 25px;
+
+  &__block {
+    background: #fff;
+    border-radius: 15px;
+    box-sizing: border-box;
+    padding: 25px;
+
+    h3 {
+      font-size: 19px;
+      line-height: 24px;
+      letter-spacing: 0.4px;
+      color: #252733;
+      margin-bottom: 15px;
+    }
+  }
+}

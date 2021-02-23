@@ -1,0 +1,75 @@
+.sign-form {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #363740;
+
+  form {
+    box-sizing: border-box;
+    width: 90%;
+    max-width: 600px;
+    padding: 20px 20px;
+    background: #fff;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    h3 {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 400px;
+
+      &:nth-of-type(2) {
+        margin: 10px auto;
+      }
+
+      &:nth-of-type(3) {
+        max-width: 320px;
+      }
+
+      input {
+        font-size: 14px;
+        color: #000;
+        display: block;
+        box-sizing: border-box;
+        border: 1px solid #000;
+        border-radius: 5px;
+        width: 100%;
+        padding: 10px 10px;
+
+        &::placeholder {
+          font-size: 14px;
+          color: #000;
+          opacity: 1;
+        }
+
+        &:active, &:focus, &:required {
+          outline: none;
+        }
+      }
+
+      button {
+        font-size: 16px;
+        color: #fff;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 20px 10px;
+        background: #363740;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+      }
+    }
+  }
+}
