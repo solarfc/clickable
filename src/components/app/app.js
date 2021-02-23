@@ -1,15 +1,16 @@
 import "./app.scss";
-import React from "react";
-import {Route, Switch} from "react-router-dom";
-import {SignUpPage} from "../pages";
+import React, {useState} from "react";
 import Aside from "../aside";
 import Main from "../main";
 
 const App = () => {
+
+    const [user, setUser] = useState('');
+
     return (
         <div className="wrapper">
             <Aside />
-            <Main />
+            <Main user={user}/>
         </div>
         // aside
         // main

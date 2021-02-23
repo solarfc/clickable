@@ -4,11 +4,11 @@ import {Route, Switch} from "react-router-dom";
 import Content from "../content";
 import Header from "../header";
 
-const Main = () => {
+const Main = ({user}) => {
 
     return (
         <main className="main">
-            <Header />
+            <Header user={user}/>
             <Switch>
                 <Route path="/overview" render={() => {}} />
                 <Route exact path="/" render={() => <Content />} />
