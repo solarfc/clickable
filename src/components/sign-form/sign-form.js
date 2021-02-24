@@ -1,18 +1,23 @@
 import "./sign-form.scss";
-import React, {useState} from "react";
+import React from "react";
+import {NavLink} from "react-router-dom";
 
-const SignForm = ({title}) => {
+const SignForm = ({title, path, error, userName, userPassword, setUserName, setUserPassword, setError, sign}) => {
 
-    const [userName, setUserName] = useState('');
-    const [userPassword, setUserPassword] = useState('');
 
     const handleChange = (e, method) => {
         method(e.target.value);
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        sign(userName, userPassword);
+        setError('');
+    }
+
     return (
         <div className="sign-form">
-            <form action="">
+            <form action="" onSubmit={(e) => {handleSubmit(e)}}>
                 <h3>{title}</h3>
                 <div className="form-group">
                     <input type="email"
@@ -34,9 +39,11 @@ const SignForm = ({title}) => {
                            onChange={(e) => handleChange(e, setUserPassword)}
                     />
                 </div>
+                <p>{error}</p>
                 <div className="form-group">
                     <button type="submit">{title}</button>
                 </div>
+                <NavLink to={path}>{title === 'Sign In' ? 'Sign Up' : "Sign In"}</NavLink>
             </form>
         </div>
     )

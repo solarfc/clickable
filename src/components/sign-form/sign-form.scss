@@ -71,5 +71,19 @@
         outline: none;
       }
     }
+
+    p {
+      text-align: center;
+      color: tomato;
+      font-weight: bold;
+      margin: 15px auto;
+    }
+
+    >a {
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      margin: 15px auto;
+    }
   }
 }

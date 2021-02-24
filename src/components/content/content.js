@@ -1,22 +1,44 @@
 import "./content.scss";
 import React, {useEffect, useState} from "react";
 import MatchesDataService from "../../service";
-import {NavLink} from "react-router-dom";
-import banner from "../../assets/img/logo.png";
 import Modal from 'react-awesome-modal';
+import AddMatch from "../add-match";
+import {NavLink} from "react-router-dom";
 
 const Content = () => {
-    const [state, setState] = useState([]);
+
     const matchService = new MatchesDataService();
+    const [state, setState] = useState([]);
+    const [visible, setVisible] = useState(false);
+
 
     useEffect(() => {
         matchService.getAllMatches().on('value', (elem) => setState(elem.val()));
-        // matchService.addMatch({home: 'Fulham', away: 'Aston Villa', id: 158, date: '24.02.2021 19:00', league: 'EPL', banner: banner})
     }, []);
 
     const deleteMatch = (key) => {
         matchService.deleteMatch(key);
     };
+
+    const createMatch = (info) => {
+        matchService.addMatch(info);
+        setVisible(false);
+    };
+
+    const content = Object.entries(state).map(([key, value]) => {
+        return (
+            value.banner ? <tr key={value.id}>
+                <td>{value.league}</td>
+                <td>{value.home} vs {value.away}</td>
+                <td>{value.date} at {value.time}</td>
+                <td><img src={value.banner} alt=""/></td>
+                <td>
+                    <NavLink to={`/edit-match/${key}`}>Update</NavLink>
+                    <button onClick={() => deleteMatch(key)}>delete</button>
+                </td>
+            </tr> : ''
+        )
+    });
 
     return (
         <div className="content">
@@ -34,33 +56,19 @@ const Content = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                Object.entries(state).map(item => {
-                                    return (
-                                        item[1].banner ? <tr key={item[1].id}>
-                                            <td>{item[1].league}</td>
-                                            <td>{item[1].home} vs {item[1].away}</td>
-                                            <td>{item[1].date}</td>
-                                            <td><img src={item[1].banner} alt=""/></td>
-                                            <td>
-                                                <NavLink to={`/${item[1].id}/edit`}>update</NavLink>
-                                                <button onClick={() => deleteMatch(item[0])}>delete</button>
-                                            </td>
-                                        </tr> : ''
-                                    )
-                                })
-                            }
+                            {content}
                         </tbody>
                     </table>
                 </div>
-                <button>Create new match</button>
-                <Modal visible={true} width="400" height="300" effect="fadeInUp" onClickAway={() => {}}>
-                    <div>
-                        <h1>Title</h1>
-                        <p>Some Contents</p>
-                        <button onClick={() => {}}>Close</button>
-                    </div>
-                </Modal>
+                <NavLink to="/create-match">Create new match</NavLink>
+                {/*<button onClick={() => setVisible(true)}>Create new match</button>*/}
+                {/*<Modal visible={visible}*/}
+                {/*       width="600"*/}
+                {/*       effect="fadeInUp"*/}
+                {/*       onClickAway={() => {setVisible(false)}}*/}
+                {/*>*/}
+                {/*    <AddMatch title="Adding New Match" sendData={createMatch}/>*/}
+                {/*</Modal>*/}
             </div>
         </div>
     )

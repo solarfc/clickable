@@ -1,0 +1,41 @@
+.add-match {
+  box-sizing: border-box;
+  padding: 20px 15px;
+
+  h2 {
+    font-size: 19px;
+    line-height: 24px;
+    letter-spacing: 0.4px;
+    color: #252733;
+    text-align: center;
+  }
+
+  .form-group {
+    margin: 10px auto;
+    width: 80%;
+    text-align: center;
+
+    input {
+      width: 100%;
+    }
+
+    button {
+      margin: 0 5px;
+      cursor: pointer;
+    }
+  }
+
+  .rdt {
+    width: 80%;
+    margin: 10px auto;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  p {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
