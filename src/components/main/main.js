@@ -1,6 +1,6 @@
 import "./main.scss";
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import Content from "../content";
 import Header from "../header";
 import UpdateMatch from "../update-match";

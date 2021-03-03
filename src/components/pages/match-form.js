@@ -23,6 +23,7 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
     const [datesValid, setDatesValid] = useState(dateValid);
 
     const disable = !(homeTeamValid && awayTeamValid && leagueValid && datesValid);
+    const regex = /^([A-Z]{1})([A-Za-z 0-9]{2,15})$/;
 
     const handleChange = (e, method) => {
         method(e.target.value);
@@ -61,8 +62,8 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
     const validateFields = (fieldName, value) => {
         switch (fieldName) {
             case 'home':
-                if(!value.match(/^([A-Z]{1})([A-Za-z 0-9]+)$/)) {
-                    setHomeError('Team name must be at least 3 characters long and start with an uppercase letter');
+                if(!value.match(regex)) {
+                    setHomeError('Team name must be at least 3 characters long and start with an uppercase letter. But no more than 15');
                     setHomeTeamValid(false);
                 } else if(value === awayTeam) {
                     setHomeError('Home and away teams cannot have the same name');
@@ -73,8 +74,8 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
                 }
                 break;
             case 'away':
-                if(!value.match(/^([A-Z]{1})([A-Za-z 0-9]+)$/)) {
-                    setAwayError('Team name must be at least 3 characters long and start with an uppercase letter');
+                if(!value.match(regex)) {
+                    setAwayError('Team name must be at least 3 characters long and start with an uppercase letter. But no more than 15');
                     setAwayTeamValid(false);
                 } else if(value === homeTeam) {
                     setAwayError('Home and away teams cannot have the same name');
@@ -85,8 +86,8 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
                 }
                 break;
             case 'league':
-                if(!value.match(/^([A-Z]{1})([A-Za-z 0-9]+)$/)) {
-                    setLeagueError('League name must be at least 3 characters long and start with an uppercase letter');
+                if(!value.match(regex)) {
+                    setLeagueError('League name must be at least 3 characters long and start with an uppercase letter. But no more than 15');
                     setLeagueValid(false);
                 } else {
                     setLeagueError('');

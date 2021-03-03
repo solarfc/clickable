@@ -13,7 +13,7 @@ const App = () => {
     return (
         user.length === 0 ?
             <Switch>
-                <Route exact path="/" render={() => <SignIn setUser={setUser}/>}/>
+                <Route path="/" render={() => <SignIn setUser={setUser}/>}/>
                 <Route exact path="/sign-up" render={() => <SignUpPage user={user} setUser={setUser}/>}/>
             </Switch>
             :
