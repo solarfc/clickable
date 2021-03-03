@@ -3,7 +3,7 @@ import React from "react";
 import {MatchForm} from "../pages";
 import MatchesDataService from "../../service";
 
-const AddMatch = ({title, sendData}) => {
+const AddMatch = () => {
 
     const matchService = new MatchesDataService();
     const createMatch = (info) => {
@@ -12,13 +12,17 @@ const AddMatch = ({title, sendData}) => {
 
     return (
         <MatchForm title="Create Match"
-            home=""
-            away=""
-            league=""
-            date=""
-            time=""
-            banner=""
-            sendData={createMatch}
+                   home=""
+                   away=""
+                   league=""
+                   date=""
+                   time=""
+                   banner=""
+                   homesTeamValid={false}
+                   awaysTeamValid={false}
+                   leaguesValid={false}
+                   dateValid={false}
+                   sendData={createMatch}
         />
     )
 };

@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import 'moment/locale/ru';
+import { useHistory } from "react-router-dom";
 
-const MatchForm = ({title, home, away, league, date, time, banner, sendData}) => {
-
-    console.log(home);
+const MatchForm = ({title, home, away, league, date, time, banner, homesTeamValid, awaysTeamValid, leaguesValid, dateValid, sendData}) => {
+    let history = useHistory();
 
     const [homeTeam, setHomeTeam] = useState(home);
     const [awayTeam, setAwayTeam] = useState(away);
@@ -13,14 +13,24 @@ const MatchForm = ({title, home, away, league, date, time, banner, sendData}) =>
     const [dates, setDate] = useState(date);
     const [times, setTime] = useState(time);
     const [banners, setBanner] = useState(banner);
+    const [homeError, setHomeError] = useState('');
+    const [awayError, setAwayError] = useState('');
+    const [leagueError, setLeagueError] = useState('');
+    const [datesError, setDatesError] = useState('');
+    const [homeTeamValid, setHomeTeamValid] = useState(homesTeamValid);
+    const [awayTeamValid, setAwayTeamValid] = useState(awaysTeamValid);
+    const [leagueValid, setLeagueValid] = useState(leaguesValid);
+    const [datesValid, setDatesValid] = useState(dateValid);
 
-    const disable = homeTeam.length <= 2 || awayTeam.length <= 2 || leagues.length <= 1 || dates.length === 0 || times.length === 0;
+    const disable = !(homeTeamValid && awayTeamValid && leagueValid && datesValid);
 
     const handleChange = (e, method) => {
         method(e.target.value);
+        validateFields(e.target.name, e.target.value);
     };
 
     const dateTransform = (value) => {
+        validateFields('dates', value)
         const day = value.getDate() > 9 ? value.getDate() : `0${value.getDate()}`;
         const month = value.getMonth() + 1 > 9 ? value.getMonth() + 1 : `0${value.getMonth() + 1}`;
         const year = value.getFullYear();
@@ -40,40 +50,105 @@ const MatchForm = ({title, home, away, league, date, time, banner, sendData}) =>
 
     const onSendData = (e) => {
         e.preventDefault();
-        sendData({id: Math.floor(Math.random() * 15000 - 254), home: homeTeam, away: awayTeam, league: leagues, date: dates, time: times, banner: banners});
+        if(homeTeamValid && awayTeamValid && leagueValid && datesValid) {
+            sendData({id: Math.floor(Math.random() * 15000 - 254), home: homeTeam, away: awayTeam, league: leagues, date: dates, time: times, banner: banners});
+        }
+        setTimeout(() => {
+            history.push('/');
+        }, 500);
+    };
+
+    const validateFields = (fieldName, value) => {
+        switch (fieldName) {
+            case 'home':
+                if(!value.match(/^([A-Z]{1})([A-Za-z 0-9]+)$/)) {
+                    setHomeError('Team name must be at least 3 characters long and start with an uppercase letter');
+                    setHomeTeamValid(false);
+                } else if(value === awayTeam) {
+                    setHomeError('Home and away teams cannot have the same name');
+                    setHomeTeamValid(false);
+                } else {
+                    setHomeError('');
+                    setHomeTeamValid(true);
+                }
+                break;
+            case 'away':
+                if(!value.match(/^([A-Z]{1})([A-Za-z 0-9]+)$/)) {
+                    setAwayError('Team name must be at least 3 characters long and start with an uppercase letter');
+                    setAwayTeamValid(false);
+                } else if(value === homeTeam) {
+                    setAwayError('Home and away teams cannot have the same name');
+                    setAwayTeamValid(false);
+                } else {
+                    setAwayError('');
+                    setAwayTeamValid(true);
+                }
+                break;
+            case 'league':
+                if(!value.match(/^([A-Z]{1})([A-Za-z 0-9]+)$/)) {
+                    setLeagueError('League name must be at least 3 characters long and start with an uppercase letter');
+                    setLeagueValid(false);
+                } else {
+                    setLeagueError('');
+                    setLeagueValid(true);
+                }
+                break;
+            case 'dates':
+                if(new Date(value) <= new Date()) {
+                    setDatesError('The date and time of the match must be greater than the current time');
+                    setDatesValid(false);
+                } else {
+                    setDatesError('');
+                    setDatesValid(true);
+                }
+                break;
+            default:
+                break;
+        }
+    };
+
+    const onCancel = () => {
+        history.push('/')
     };
 
     return (
         <form className="add-match" action="" onSubmit={(e) => onSendData(e)}>
             <h2>{title}</h2>
             <div className="form-group">
+                <p style={{color: 'tomato'}}>{homeError}</p>
                 <input type="text"
                        id="home"
                        name="home"
                        placeholder="Home team"
                        value={homeTeam}
+                       style={homeError.length > 0 ? {border: '1px solid tomato'} : {border: '1px solid #000'}}
                        onChange={(e) => handleChange(e, setHomeTeam)}
                 />
             </div>
             <div className="form-group">
+                <p style={{color: 'tomato'}}>{awayError}</p>
                 <input type="text"
                        id="away"
                        name="away"
                        placeholder="Away team"
                        value={awayTeam}
+                       style={awayError.length > 0 ? {border: '1px solid tomato'} : {border: '1px solid #000'}}
                        onChange={(e) => handleChange(e, setAwayTeam)}
                 />
             </div>
             <div className="form-group">
+                <p style={{color: 'tomato'}}>{leagueError}</p>
                 <input type="text"
                        id="league"
                        name="league"
                        placeholder="League"
                        value={leagues}
+                       style={leagueError.length > 0 ? {border: '1px solid tomato'} : {border: '1px solid #000'}}
                        onChange={(e) => handleChange(e, setLeague)}
                 />
             </div>
             <p>Select date and time</p>
+            <p style={{color: 'tomato'}}>{datesError}</p>
             <Datetime local="ru"
                       placeholder=""
                       id="date"
@@ -92,6 +167,9 @@ const MatchForm = ({title, home, away, league, date, time, banner, sendData}) =>
             </div>
             <div className="form-group">
                 <button disabled={disable} type="submit">Add</button>
+            </div>
+            <div className="form-group">
+                <button onClick={() => onCancel}>Cancel</button>
             </div>
         </form>
     )

@@ -1,15 +1,12 @@
 import "./content.scss";
 import React, {useEffect, useState} from "react";
 import MatchesDataService from "../../service";
-import Modal from 'react-awesome-modal';
-import AddMatch from "../add-match";
 import {NavLink} from "react-router-dom";
 
 const Content = () => {
 
     const matchService = new MatchesDataService();
     const [state, setState] = useState([]);
-    const [visible, setVisible] = useState(false);
 
 
     useEffect(() => {
@@ -18,11 +15,6 @@ const Content = () => {
 
     const deleteMatch = (key) => {
         matchService.deleteMatch(key);
-    };
-
-    const createMatch = (info) => {
-        matchService.addMatch(info);
-        setVisible(false);
     };
 
     const content = Object.entries(state).map(([key, value]) => {
@@ -61,14 +53,6 @@ const Content = () => {
                     </table>
                 </div>
                 <NavLink to="/create-match">Create new match</NavLink>
-                {/*<button onClick={() => setVisible(true)}>Create new match</button>*/}
-                {/*<Modal visible={visible}*/}
-                {/*       width="600"*/}
-                {/*       effect="fadeInUp"*/}
-                {/*       onClickAway={() => {setVisible(false)}}*/}
-                {/*>*/}
-                {/*    <AddMatch title="Adding New Match" sendData={createMatch}/>*/}
-                {/*</Modal>*/}
             </div>
         </div>
     )

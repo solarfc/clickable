@@ -26,6 +26,10 @@ const UpdateMatch = ({match: {params: {id}}}) => {
                       date={state.date}
                       time={state.time}
                       banner={state.banner}
+                      homesTeamValid={true}
+                      awaysTeamValid={true}
+                      leaguesValid={true}
+                      dateValid={true}
                       sendData={updateData}
     />
 };
