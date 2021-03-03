@@ -7,11 +7,10 @@ export default class MatchesDataService {
         return db;
     };
     addMatch(info) {
-        return db.push(info);
+        return db.push(info)
     };
     updateMatch(key, value) {
         return db.child(key).update(value)
-            .then(res => console.log(res));
     };
     deleteMatch(key) {
         return db.child(key).remove();

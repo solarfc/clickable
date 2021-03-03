@@ -1,16 +1,16 @@
 import "./main.scss";
 import React from "react";
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import Content from "../content";
 import Header from "../header";
 import UpdateMatch from "../update-match";
 import AddMatch from "../add-match";
 
-const Main = ({user}) => {
+const Main = ({user, setUser}) => {
 
     return (
         <main className="main">
-            <Header user={user}/>
+            <Header user={user} setUser={setUser}/>
             <Switch>
                 <Route path="/overview" render={() => {}} />
                 <Route exact path="/" render={() => <Content />} />

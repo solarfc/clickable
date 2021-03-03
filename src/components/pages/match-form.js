@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import 'moment/locale/ru';
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
-const MatchForm = ({title, home, away, league, date, time, banner, homesTeamValid, awaysTeamValid, leaguesValid, dateValid, sendData}) => {
+const MatchForm = ({title, home, away, league, date, time, banner, homesTeamValid, awaysTeamValid, leaguesValid, dateValid, res, error, sendData}) => {
     let history = useHistory();
 
     const [homeTeam, setHomeTeam] = useState(home);
@@ -22,7 +22,7 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
     const [leagueValid, setLeagueValid] = useState(leaguesValid);
     const [datesValid, setDatesValid] = useState(dateValid);
 
-    const disable = !(homeTeamValid && awayTeamValid && leagueValid && datesValid);
+    let disable = !(homeTeamValid && awayTeamValid && leagueValid && datesValid);
     const regex = /^([A-Z]{1})([A-Za-z 0-9]{2,15})$/;
 
     const handleChange = (e, method) => {
@@ -52,12 +52,16 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
     const onSendData = (e) => {
         e.preventDefault();
         if(homeTeamValid && awayTeamValid && leagueValid && datesValid) {
-            sendData({id: Math.floor(Math.random() * 15000 - 254), home: homeTeam, away: awayTeam, league: leagues, date: dates, time: times, banner: banners});
+            sendData({id: Math.floor(Math.random() * 15000 - 254), home: homeTeam, away: awayTeam, league: leagues, date: dates, time: times, banner: banners})
         }
+    };
+
+    if(res.length > 0) {
+        disable = true;
         setTimeout(() => {
             history.push('/');
-        }, 500);
-    };
+        }, 1000);
+    }
 
     const validateFields = (fieldName, value) => {
         switch (fieldName) {
@@ -115,6 +119,7 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
     return (
         <form className="add-match" action="" onSubmit={(e) => onSendData(e)}>
             <h2>{title}</h2>
+            <h3>{res ? res : error}</h3>
             <div className="form-group">
                 <p style={{color: 'tomato'}}>{homeError}</p>
                 <input type="text"
@@ -170,7 +175,7 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
                 <button disabled={disable} type="submit">Add</button>
             </div>
             <div className="form-group">
-                <button onClick={() => onCancel}>Cancel</button>
+                <button onClick={() => onCancel()}>Cancel</button>
             </div>
         </form>
     )

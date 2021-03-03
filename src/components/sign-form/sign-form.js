@@ -1,9 +1,10 @@
 import "./sign-form.scss";
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 
 const SignForm = ({title, path, error, userName, userPassword, setUserName, setUserPassword, setError, sign}) => {
 
+    const history = useHistory();
 
     const handleChange = (e, method) => {
         method(e.target.value);
@@ -13,6 +14,8 @@ const SignForm = ({title, path, error, userName, userPassword, setUserName, setU
         e.preventDefault();
         sign(userName, userPassword);
         setError('');
+        localStorage.setItem('user', userName);
+        history.push('/');
     }
 
     return (

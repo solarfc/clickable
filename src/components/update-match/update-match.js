@@ -5,14 +5,20 @@ import {withRouter} from "react-router-dom";
 
 const UpdateMatch = ({match: {params: {id}}}) => {
 
+    const [error, setError] = useState('');
+    const [res, setRes] = useState('');
     const [state, setState] = useState([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const matchService = new MatchesDataService();
+
     useEffect(() => {
         matchService.matchInfo(id).once('value', (elem) => setState(elem.val()));
-    }, []);
+    }, [id]);
 
     const updateData = (value) => {
-        matchService.updateMatch(id, value);
+        matchService.updateMatch(id, value)
+            .then(res => setRes('Match successfully changed. You will be redirected to the home page'))
+            .catch(error => setError('An error occurred while adding'));
     }
 
     if(state.length === 0) {
@@ -30,6 +36,8 @@ const UpdateMatch = ({match: {params: {id}}}) => {
                       awaysTeamValid={true}
                       leaguesValid={true}
                       dateValid={true}
+                      res={res}
+                      error={error}
                       sendData={updateData}
     />
 };

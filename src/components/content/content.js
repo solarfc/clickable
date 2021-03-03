@@ -2,15 +2,17 @@ import "./content.scss";
 import React, {useEffect, useState} from "react";
 import MatchesDataService from "../../service";
 import {NavLink} from "react-router-dom";
+import Spinner from "../spinner";
 
 const Content = () => {
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const matchService = new MatchesDataService();
+    const [loading, setLoading] = useState(true);
     const [state, setState] = useState([]);
 
-
     useEffect(() => {
-        matchService.getAllMatches().on('value', (elem) => setState(elem.val()));
+        matchService.getAllMatches().on('value', (elem) => {setState(elem.val()); setLoading(false)});
     }, []);
 
     const deleteMatch = (key) => {
@@ -30,7 +32,11 @@ const Content = () => {
                 </td>
             </tr> : ''
         )
-    });
+    })
+
+    if(loading) {
+        return <Spinner />
+    }
 
     return (
         <div className="content">

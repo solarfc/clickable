@@ -6,9 +6,9 @@ const SignIn = ({setUser}) => {
 
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
 
-    const createAccount = (email, password) => {
+    const signInAccount = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(res => setUser(email))
             .catch(error => setError(error.message));
@@ -23,7 +23,7 @@ const SignIn = ({setUser}) => {
                   setUserName={setUserName}
                   setUserPassword={setUserPassword}
                   setError={setError}
-                  sign={createAccount}
+                  sign={signInAccount}
         />
     )
 };
