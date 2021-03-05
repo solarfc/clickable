@@ -44,6 +44,7 @@ const MatchForm = ({title, home, away, league, date, time, banner, homesTeamVali
     const readURL = (input) => {
         const reader = new FileReader();
         reader.onload = (e) => {
+            console.log(e);
             setBanner(e.target.result);
         }
         reader.readAsDataURL(input.target.files[0]);

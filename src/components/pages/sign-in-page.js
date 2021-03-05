@@ -1,8 +1,11 @@
 import React, {useState} from "react";
 import SignForm from "../sign-form";
 import firebase from "firebase";
+import {useHistory} from "react-router-dom";
 
 const SignIn = ({setUser}) => {
+
+    const history = useHistory();
 
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
@@ -10,7 +13,12 @@ const SignIn = ({setUser}) => {
 
     const signInAccount = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(res => setUser(email))
+            .then(res => {
+                setUser(email);
+                setError('');
+                localStorage.setItem('user', userName);
+                history.push('/');
+            })
             .catch(error => setError(error.message));
     };
 
@@ -22,7 +30,6 @@ const SignIn = ({setUser}) => {
                   userPassword={userPassword}
                   setUserName={setUserName}
                   setUserPassword={setUserPassword}
-                  setError={setError}
                   sign={signInAccount}
         />
     )

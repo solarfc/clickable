@@ -4,6 +4,7 @@ import Aside from "../aside";
 import Main from "../main";
 import {Route, Switch} from "react-router-dom";
 import {SignIn, SignUpPage} from "../pages";
+import firebase from "firebase";
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
             localStorage.setItem('user', user);
         }
         setUser(localStorage.getItem('user'));
+        console.log(firebase.auth().currentUser);
     }, []);
 
     return (
@@ -22,7 +24,7 @@ const App = () => {
             <>
                 <Switch>
                     <Route exact path="/" render={() => <SignIn setUser={setUser}/>}/>
-                    <Route exact path="/sign-up" render={() => <SignUpPage user={user} setUser={setUser}/>} />
+                    <Route exact path="/sign-up" render={() => <SignUpPage setUser={setUser}/>} />
                 </Switch>
             </>
             :
